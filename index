@@ -1,1 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>What Season of Branding Are You In?</title>
+  <!-- Brand Palette -->
+  <style>
+    :root {
+      --charcoal: #0f0f0f;        /* sacred black */
+      --ember: #c07621;           /* ember gold */
+      --ash: #867b6d;             /* warm ash brown */
+      --parchment: #cbb79e;       /* aged parchment */
+      --fog: #a9a9a9;             /* muted gray for Fog state */
+      --font-serif: "Playfair Display", serif;
+      --font-sans: "Roboto", sans-serif;
+    }
 
+    /* Reset + base */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--charcoal);
+      color: var(--parchment);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      display: flex;
+      justify-content: center;
+      padding: 2rem 1rem;
+      min-height: 100vh;
+    }
+    h1, h2, h3 { font-family: var(--font-serif); font-weight: 700; }
+    h1 { font-size: 2rem; margin-bottom: 1rem; text-align: center; }
+    h2 { font-size: 1.25rem; margin: 1.5rem 0 0.5rem; color: var(--ember); }
+
+    /* Quiz container */
+    .quiz {
+      max-width: 700px;
+      width: 100%;
+      background: linear-gradient(145deg, rgba(192,118,33,0.08), rgba(255,255,255,0.02));
+      border: 1px solid rgba(203,183,158,0.15);
+      border-radius: 8px;
+      padding: 2rem;
+      box-shadow: 0 0 20px rgba(0,0,0,0.6);
+    }
+
+    /* Question blocks */
+    .question {
+      margin-bottom: 1.25rem;
+    }
+    .answers label {
+      display: block;
+      margin-bottom: 0.4rem;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 4px;
+      transition: background 0.2s ease;
+    }
+    .answers label:hover {
+      background: rgba(203,183,158,0.1);
+    }
+    input[type="radio"] {
+      accent-color: var(--ember);
+      margin-right: 0.5rem;
+    }
+
+    /* Button */
+    button {
+      background: var(--ember);
+      color: #fff;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      display: block;
+      margin: 2rem auto 0;
+    }
+    button:hover { background: #e08b37; }
+    button:disabled { 
+      background: var(--ash); 
+      cursor: not-allowed; 
+      opacity: 0.6;
+    }
+
+    /* Result card */
+    .result {
+      display: none;
+      margin-top: 2rem;
+      padding: 1.5rem;
+      border: 2px solid;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.03);
+    }
+    .result.fire   { 
+      border-color: var(--ember); 
+      background: rgba(192,118,33,0.1);
+    }
+    .result.fog    { 
+      border-color: var(--fog); 
+      background: rgba(169,169,169,0.1);
+    }
+    .result.framework { 
+      border-color: var(--parchment); 
+      background: rgba(203,183,158,0.1);
+    }
+    .result.ash    { 
+      border-color: var(--ash); 
+      background: rgba(134,123,109,0.1);
+    }
+    .result h3 { 
+      margin-bottom: 0.75rem; 
+      font-size: 1.5rem;
+    }
+    .result p {
+      margin-bottom: 1rem;
+    }
+
+    /* Small flaming embellishment */
+    .flame {
+      width: 20px; height: 28px;
+      background: radial-gradient(circle at 50% 20%, #ffd089 0%, #c07621 60%, transparent 70%);
+      clip-path: polygon(50% 0%, 65% 30%, 80% 60%, 50% 100%, 20% 60%, 35% 30%);
+      display: inline-block; margin-right: 0.5rem;
+    }
+
+    /* Season icons */
+    .season-icon {
+      display: inline-block;
+      margin-right: 0.5rem;
+      font-size: 1.2em;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .quiz { padding: 1.5rem; }
+      h1 { font-size: 1.75rem; }
+      h2 { font-size: 1.1rem; }
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="quiz" id="quiz">
+    <h1><span class="flame"></span>What Season of Branding Are You In?</h1>
+
+    <!-- QUESTION SET (5 questions x 4 pathways) -->
+    <!-- Each answer radio stores its season value for scoring -->
+
+    <div class="question" data-q="1">
+      <h2>1. When you think about your brand right now, what word feels most true?</h2>
+      <div class="answers">
+        <label><input type="radio" name="q1" value="fire" />Urgent</label>
+        <label><input type="radio" name="q1" value="fog" />Unclear</label>
+        <label><input type="radio" name="q1" value="framework" />Grounded</label>
+        <label><input type="radio" name="q1" value="ash" />Quiet</label>
+      </div>
+    </div>
+
+    <div class="question" data-q="2">
+      <h2>2. Visibility feels…</h2>
+      <div class="answers">
+        <label><input type="radio" name="q2" value="fire" />Necessary right now</label>
+        <label><input type="radio" name="q2" value="fog" />Overwhelming</label>
+        <label><input type="radio" name="q2" value="framework" />Strategic and intentional</label>
+        <label><input type="radio" name="q2" value="ash" />Like something I'll think about later</label>
+      </div>
+    </div>
+
+    <div class="question" data-q="3">
+      <h2>3. Your energy around your business is…</h2>
+      <div class="answers">
+        <label><input type="radio" name="q3" value="fire" />High and ready to take action</label>
+        <label><input type="radio" name="q3" value="fog" />Scattered and uncertain</label>
+        <label><input type="radio" name="q3" value="framework" />Steady and purposeful</label>
+        <label><input type="radio" name="q3" value="ash" />Low but contemplative</label>
+      </div>
+    </div>
+
+    <div class="question" data-q="4">
+      <h2>4. When it comes to your brand message, you feel…</h2>
+      <div class="answers">
+        <label><input type="radio" name="q4" value="fire" />Clear and ready to shout it from the rooftops</label>
+        <label><input type="radio" name="q4" value="fog" />Like you're still figuring it out</label>
+        <label><input type="radio" name="q4" value="framework" />Confident in your foundation</label>
+        <label><input type="radio" name="q4" value="ash" />Like you need time to refine it</label>
+      </div>
+    </div>
+
+    <div class="question" data-q="5">
+      <h2>5. Your ideal next step would be to…</h2>
+      <div class="answers">
+        <label><input type="radio" name="q5" value="fire" />Launch something bold and new</label>
+        <label><input type="radio" name="q5" value="fog" />Get clarity on your direction</label>
+        <label><input type="radio" name="q5" value="framework" />Build sustainable systems</label>
+        <label><input type="radio" name="q5" value="ash" />Reflect and plan thoughtfully</label>
+      </div>
+    </div>
+
+    <button type="button" onclick="calculateResult()" id="submitBtn">Discover Your Season</button>
+
+    <!-- RESULT SECTIONS -->
+    <div class="result fire" id="result-fire">
+      <h3><span class="season-icon">🔥</span>Fire Season</h3>
+      <p><strong>You're in your Fire Season!</strong> This is a time of high energy, bold action, and rapid growth. You're ready to take risks, launch new initiatives, and make your mark on the world.</p>
+      <p>Your brand energy is passionate and urgent. You thrive on momentum and aren't afraid to pivot quickly when opportunities arise. This is your time to be visible, take up space, and trust your instincts.</p>
+      <p><strong>Focus on:</strong> Bold launches, high-energy content, taking calculated risks, and riding the wave of your momentum.</p>
+    </div>
+
+    <div class="result fog" id="result-fog">
+      <h3><span class="season-icon">🌫️</span>Fog Season</h3>
+      <p><strong>You're in your Fog Season!</strong> This is a time of uncertainty and exploration. You might feel unclear about your direction, but this season is actually perfect for discovery and experimentation.</p>
+      <p>Your brand is in a state of becoming. You're gathering information, testing ideas, and allowing yourself to explore different possibilities without the pressure of having it all figured out.</p>
+      <p><strong>Focus on:</strong> Experimentation, gathering feedback, exploring different directions, and being patient with the process of discovery.</p>
+    </div>
+
+    <div class="result framework" id="result-framework">
+      <h3><span class="season-icon">🏗️</span>Framework Season</h3>
+      <p><strong>You're in your Framework Season!</strong> This is a time of building solid foundations and creating sustainable systems. You're focused on structure, strategy, and long-term growth.</p>
+      <p>Your brand energy is steady and intentional. You're not rushing to the next big thing – instead, you're creating something that will last. You value consistency and strategic thinking.</p>
+      <p><strong>Focus on:</strong> Building systems, creating consistent processes, developing your brand foundation, and planning for sustainable growth.</p>
+    </div>
+
+    <div class="result ash" id="result-ash">
+      <h3><span class="season-icon">🌿</span>Ash Season</h3>
+      <p><strong>You're in your Ash Season!</strong> This is a time of rest, reflection, and renewal. After a period of growth or change, you're taking time to process, integrate, and prepare for what's next.</p>
+      <p>Your brand energy is quiet but rich with potential. You're not dormant – you're composting your experiences and allowing new ideas to germinate. This is a season of deep work and thoughtful preparation.</p>
+      <p><strong>Focus on:</strong> Reflection, planning, skill development, and nurturing the seeds of your next phase of growth.</p>
+    </div>
+  </div>
+
+  <script>
+    function calculateResult() {
+      // Check if all questions are answered
+      const totalQuestions = 5;
+      let answeredQuestions = 0;
+      
+      for (let i = 1; i <= totalQuestions; i++) {
+        const radios = document.querySelectorAll(`input[name="q${i}"]`);
+        let hasAnswer = false;
+        for (const radio of radios) {
+          if (radio.checked) {
+            hasAnswer = true;
+            break;
+          }
+        }
+        if (hasAnswer) answeredQuestions++;
+      }
+      
+      if (answeredQuestions < totalQuestions) {
+        alert('Please answer all questions before discovering your season.');
+        return;
+      }
+      
+      // Count votes for each season
+      const seasonCounts = {
+        fire: 0,
+        fog: 0,
+        framework: 0,
+        ash: 0
+      };
+      
+      // Tally up the answers
+      for (let i = 1; i <= totalQuestions; i++) {
+        const radios = document.querySelectorAll(`input[name="q${i}"]`);
+        for (const radio of radios) {
+          if (radio.checked && seasonCounts.hasOwnProperty(radio.value)) {
+            seasonCounts[radio.value]++;
+            break;
+          }
+        }
+      }
+      
+      // Find the season with the most votes
+      let winningSeasons = [];
+      let maxCount = Math.max(...Object.values(seasonCounts));
+      
+      for (const [season, count] of Object.entries(seasonCounts)) {
+        if (count === maxCount) {
+          winningSeasons.push(season);
+        }
+      }
+      
+      // If there's a tie, use a priority order: fire > framework > fog > ash
+      const priorityOrder = ['fire', 'framework', 'fog', 'ash'];
+      let finalSeason = winningSeasons[0];
+      
+      for (const season of priorityOrder) {
+        if (winningSeasons.includes(season)) {
+          finalSeason = season;
+          break;
+        }
+      }
+      
+      // Hide all results first
+      const allResults = document.querySelectorAll('.result');
+      allResults.forEach(result => result.style.display = 'none');
+      
+      // Show the winning result
+      const winningResult = document.getElementById(`result-${finalSeason}`);
+      if (winningResult) {
+        winningResult.style.display = 'block';
+        
+        // Smooth scroll to result
+        winningResult.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'start' 
+        });
+      }
+      
+      // Update button text
+      document.getElementById('submitBtn').textContent = 'Retake Quiz';
+    }
+    
+    // Enable/disable submit button based on completion
+    document.addEventListener('change', function(e) {
+      if (e.target.type === 'radio') {
+        const totalQuestions = 5;
+        let answeredQuestions = 0;
+        
+        for (let i = 1; i <= totalQuestions; i++) {
+          const radios = document.querySelectorAll(`input[name="q${i}"]`);
+          for (const radio of radios) {
+            if (radio.checked) {
+              answeredQuestions++;
+              break;
+            }
+          }
+        }
+        
+        const submitBtn = document.getElementById('submitBtn');
+        if (answeredQuestions === totalQuestions) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Discover Your Season';
+        } else {
+          submitBtn.disabled = true;
+          submitBtn.textContent = `Answer ${totalQuestions - answeredQuestions} more question${totalQuestions - answeredQuestions === 1 ? '' : 's'}`;
+        }
+      }
+    });
+    
+    // Initialize button state
+    document.getElementById('submitBtn').disabled = true;
+    document.getElementById('submitBtn').textContent = 'Answer 5 questions';
+  </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'962869d496ca47a3',t:'MTc1MzA3Njk0OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
